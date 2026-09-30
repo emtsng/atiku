@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="robots" content="noindex, nofollow">
   <meta name="theme-color" content="#143d2c">
   <meta name="description" content="Sebo's personal eating plan, transcribed from her dietitian's notes.">
@@ -121,6 +122,10 @@
     #out h2 { color: var(--clay); }
     .sub { margin: 0 0 14px; color: var(--muted); max-width: 40rem; }
     .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 8px; }
+    .tile, .dose, button.text, button.solid, .dock button {
+      touch-action: manipulation;
+      -webkit-tap-highlight-color: transparent;
+    }
     .tile, .dose {
       text-align: left; background: var(--sheet); border: 1px solid var(--line);
       border-radius: 16px; cursor: pointer; padding: 10px;
@@ -164,10 +169,55 @@
     .greens { display: flex; gap: 8px; align-items: center; }
     .greens svg { width: 64px; height: 64px; }
     footer { color: var(--muted); font-size: 0.88rem; padding: 18px 0 48px; }
+    .dock { display: none; }
+    @media (max-width: 759px) {
+      header.top { padding: 18px 0 14px; }
+      h1 { font-size: 2.15rem; }
+      .motto { font-size: 0.92rem; }
+      nav.jump { display: none; }
+      .wrap > .stage, .wrap > section, .wrap > footer { display: none; }
+      body[data-panel="today"] .stage { display: grid; grid-template-columns: 1fr 1fr; justify-items: center; gap: 12px; }
+      body[data-panel="today"].two-open .stage, body[data-panel="today"] .stage.two { grid-template-columns: 1fr; }
+      body[data-panel="today"] #out, body[data-panel="today"] footer,
+      body[data-panel="breakfast"] #breakfast, body[data-panel="plates"] #plates,
+      body[data-panel="fruit"] #fruit, body[data-panel="doses"] #doses { display: block; }
+      .plate { width: 132px; height: 132px; box-shadow: 0 6px 0 #e7c08a; }
+      .glass { height: 92px; }
+      .tiles { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .tile { min-height: 128px; padding: 12px; }
+      .dose { min-height: 64px; }
+      body { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
+      .dock {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+        background: rgba(255, 250, 243, 0.96);
+        backdrop-filter: blur(16px);
+        border-top: 1px solid var(--line);
+        padding: 6px 6px calc(8px + env(safe-area-inset-bottom));
+      }
+      .dock button {
+        position: relative;
+        border: 0; background: transparent; color: var(--muted);
+        min-height: 54px; border-radius: 14px;
+        display: flex; flex-direction: column; align-items: center; justify-content: center;
+        gap: 1px; font-size: 0.68rem; font-weight: 700; padding: 4px 2px;
+      }
+      .dock button svg { width: 22px; height: 22px; }
+      .dock button[aria-current="page"] { background: var(--leaf); color: var(--green-deep); }
+      .dock .count {
+        position: absolute; top: 4px; right: 10px;
+        min-width: 16px; height: 16px; padding: 0 4px;
+        border-radius: 99px; background: var(--saffron); color: #fff;
+        font-size: 0.62rem; line-height: 16px; text-align: center;
+      }
+      .dock .count:empty { display: none; }
+    }
     button:focus-visible, a:focus-visible { outline: 3px solid #e0a106; outline-offset: 2px; }
     @media (prefers-reduced-motion: no-preference) {
       .liquid { transition: height 420ms ease; }
       .arrive { animation: settle 260ms ease; }
+      .tile:active, .dose:active, .dock button:active { transform: scale(0.96); }
       @keyframes settle { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
     }
     @media (prefers-reduced-motion: reduce) {
@@ -175,7 +225,7 @@
       .liquid { transition: none; }
     }
     @media print {
-      .now, .actions, .skip { display: none; }
+      .now, .actions, .skip, .dock { display: none; }
       body { background: #fff; }
       .plate { box-shadow: none; }
     }
@@ -419,6 +469,13 @@
     </footer>
   </div>
 
+  <nav class="dock" id="dock" aria-label="Plan">
+    <button type="button" data-panel="today" aria-current="page"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#greens"/></svg>Today</button>
+    <button type="button" data-panel="breakfast"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#cucumber"/></svg>Glass<span class="count" id="count-breakfast"></span></button>
+    <button type="button" data-panel="plates"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#rice"/></svg>Plate<span class="count" id="count-plate"></span></button>
+    <button type="button" data-panel="fruit"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#apple"/></svg>Fruit<span class="count" id="count-fruit"></span></button>
+    <button type="button" data-panel="doses"><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#capsule"/></svg>Tablets<span class="count" id="count-doses"></span></button>
+  </nav>
   <script>
     const KEY = "sebo-eating-plan-v2";
     const breakfast = [
@@ -627,6 +684,10 @@
       if (!state.fruit) open.push("fruit open");
       if (doseDone < doses.length) open.push((doses.length - doseDone) + " tablets left");
       document.getElementById("status").textContent = open.length ? open.join(" · ") : "Today is set.";
+      document.getElementById("count-breakfast").textContent = count ? String(count) : "";
+      document.getElementById("count-plate").textContent = state.p1.staple ? "1" : "";
+      document.getElementById("count-fruit").textContent = state.fruit ? "1" : "";
+      document.getElementById("count-doses").textContent = doseDone ? String(doseDone) : "";
 
       const when = new Date();
       document.getElementById("when").textContent = when.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
@@ -674,6 +735,20 @@
       if (!state.start) state.start = todayKey();
       persist();
     });
+
+    const dock = document.getElementById("dock");
+    const openPanel = (id) => {
+      document.body.dataset.panel = id;
+      dock.querySelectorAll("[data-panel]").forEach((button) => {
+        button.setAttribute("aria-current", button.dataset.panel === id ? "page" : "false");
+      });
+      window.scrollTo({ top: 0, behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth" });
+    };
+    dock.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-panel]");
+      if (button) openPanel(button.dataset.panel);
+    });
+    openPanel("today");
 
     paint();
     if ("serviceWorker" in navigator) {
