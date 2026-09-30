@@ -4,514 +4,627 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#0e5c38">
-  <meta name="description" content="Sebo's personal eating plan, transcribed from her dietitian's notes for blood pressure, diabetes, and cholesterol.">
+  <meta name="theme-color" content="#f4efe6">
+  <meta name="description" content="Sebo's personal eating plan, transcribed from her dietitian's notes.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Sebo plan">
-  <title>Sebo · Eating plan</title>
+  <title>Sebo · Today</title>
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="apple-touch-icon" href="icon.svg">
   <style>
     :root {
-      --ink: #1c2b24;
-      --muted: #5d6b64;
-      --line: #e4ddd0;
-      --paper: #f3efe4;
-      --sheet: #fffcf7;
-      --green: #0e5c38;
-      --green-soft: #e7f4ec;
-      --danger: #7f1d1d;
-      --danger-soft: #fdecec;
-      --amber: #7a4e00;
-      --amber-soft: #fff6df;
-      --shadow: 0 10px 30px rgba(40, 32, 16, 0.06);
-      --radius: 18px;
+      --ink: #1c1915;
+      --muted: #5e584f;
+      --line: #d9d0c3;
+      --paper: #f4efe6;
+      --sheet: #fbf7f0;
+      --green: #1d6b42;
+      --leaf: #dfeade;
+      --clay: #8a3d2f;
+      --clay-soft: #f6e4dc;
+      --amber: #6d5014;
+      --amber-soft: #f8efd4;
     }
     * { box-sizing: border-box; }
+    [hidden] { display: none !important; }
     html { scroll-behavior: smooth; }
     body {
       margin: 0;
       color: var(--ink);
       background: var(--paper);
-      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-      line-height: 1.5;
+      font-family: "Avenir Next", "Segoe UI", sans-serif;
+      line-height: 1.45;
     }
-    a { color: var(--green); }
-    .skip {
-      position: absolute;
-      left: 12px;
-      top: -40px;
-      background: #fff;
-      padding: 8px 12px;
-      z-index: 5;
-    }
-    .skip:focus { top: 12px; }
-    header.hero {
-      background: var(--green);
-      color: #f4fff8;
-      padding: 28px 20px 72px;
-    }
-    .wrap { width: min(760px, calc(100% - 32px)); margin: 0 auto; }
-    .kicker {
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      font-size: 0.75rem;
-      font-weight: 700;
-      opacity: 0.85;
-      margin: 0 0 8px;
-    }
-    h1 { font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 0; font-weight: 600; }
-    .lede { margin: 10px 0 0; max-width: 38rem; color: #e5f6ec; }
-    .sheet {
-      background: var(--sheet);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 18px;
-      margin-bottom: 14px;
-    }
-    .lift { margin-top: -48px; }
-    .motto { display: flex; gap: 10px; flex-wrap: wrap; }
-    .motto p { margin: 0; flex: 1 1 200px; padding: 12px 14px; border-radius: 14px; }
-    .motto .stop { background: var(--danger-soft); color: var(--danger); }
-    .motto .go { background: var(--green-soft); color: var(--green); }
-    .conditions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
-    .chip {
-      border-radius: 999px;
-      padding: 6px 10px;
-      font-size: 0.82rem;
-      font-weight: 700;
-      background: #f6f3ea;
-      color: var(--ink);
-    }
-    nav.sections {
-      position: sticky;
-      top: 0;
-      z-index: 3;
-      background: rgba(243, 239, 228, 0.94);
+    h1, h2, .who { font-family: Georgia, "Iowan Old Style", Palatino, serif; font-weight: 500; }
+    button, input { font: inherit; color: inherit; }
+    a { color: inherit; }
+    .skip { position: absolute; left: 8px; top: -40px; background: #fff; padding: 8px; }
+    .skip:focus { top: 8px; }
+    .wrap { width: min(880px, calc(100% - 28px)); margin: 0 auto; }
+    header.top { padding: 28px 0 8px; }
+    .who { margin: 0; letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.78rem; }
+    h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 0.95; margin: 8px 0; }
+    .when, .motto { margin: 0; color: var(--muted); }
+    .motto { margin-top: 8px; max-width: 36rem; }
+    .now {
+      position: sticky; top: 0; z-index: 4;
+      background: rgba(244, 239, 230, 0.94);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--line);
-      margin: 8px 0 16px;
-    }
-    nav.sections ul {
-      list-style: none;
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      margin: 0;
+      border-bottom: 1px solid var(--ink);
       padding: 10px 0;
-      scrollbar-width: none;
+      font-size: 0.92rem;
     }
-    nav.sections a {
-      flex: 0 0 auto;
-      text-decoration: none;
-      color: var(--ink);
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 8px 12px;
-      font-size: 0.88rem;
-      font-weight: 650;
-    }
-    nav.sections a:focus-visible, button:focus-visible { outline: 3px solid #f0b429; outline-offset: 2px; }
-    h2 { font-family: Georgia, "Iowan Old Style", serif; font-size: 1.45rem; margin: 0 0 4px; }
-    .num { color: var(--green); font-variant-numeric: tabular-nums; margin-right: 6px; }
-    .sub { color: var(--muted); margin: 0 0 14px; }
-    .rules { display: grid; gap: 10px; }
-    .rules li { background: var(--green-soft); border-radius: 14px; padding: 12px 14px; }
-    ol.rules, ul.plain { margin: 0; padding-left: 1.1rem; }
-    .item, .dose {
-      width: 100%;
-      text-align: left;
-      border: 1px solid var(--line);
-      background: #fff;
-      border-radius: 16px;
-      padding: 12px;
-      display: flex;
-      gap: 12px;
-      align-items: flex-start;
-      cursor: pointer;
-      font: inherit;
-      color: inherit;
-    }
-    .item + .item, .dose + .dose { margin-top: 8px; }
-    .item[aria-pressed="true"], .dose[aria-pressed="true"] {
-      background: var(--green-soft);
-      border-color: #8dceb0;
-    }
-    .box {
-      width: 22px;
-      height: 22px;
-      border-radius: 6px;
-      border: 2px solid #8aa194;
-      flex: 0 0 auto;
-      margin-top: 2px;
+    .now p { margin: 0; }
+    nav.jump { display: flex; gap: 14px; overflow-x: auto; padding-top: 6px; }
+    nav.jump a { text-decoration: none; border-bottom: 1px solid var(--ink); white-space: nowrap; font-size: 0.88rem; }
+    .stage {
       display: grid;
-      place-items: center;
-      font-size: 0.85rem;
+      grid-template-columns: 1fr;
+      gap: 18px;
+      padding: 22px 0 8px;
     }
-    [aria-pressed="true"] .box { background: var(--green); border-color: var(--green); color: #fff; }
-    [aria-pressed="true"] .box::after { content: "✓"; }
-    .name { font-weight: 750; display: block; }
-    .aka, .why { color: var(--muted); font-size: 0.88rem; display: block; }
-    .portion {
-      display: inline-block;
-      margin-top: 4px;
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 999px;
-      padding: 2px 8px;
-      font-weight: 750;
-      font-size: 0.85rem;
-      color: var(--green);
+    @media (min-width: 760px) {
+      .stage { grid-template-columns: 220px 1fr; align-items: end; }
+      .stage.two { grid-template-columns: 200px 1fr 1fr; }
     }
-    .grid { display: grid; gap: 10px; }
-    @media (min-width: 700px) {
-      .grid.two { grid-template-columns: 1fr 1fr; }
+    .vessel, .dish { margin: 0; }
+    .mix { display: flex; align-items: flex-end; gap: 8px; }
+    .dish { display: flex; flex-direction: column; align-items: flex-start; }
+    .gathered { display: flex; flex-wrap: wrap; gap: 4px; min-height: 44px; align-items: flex-end; }
+    .glass {
+      width: 54px; height: 108px; flex: 0 0 auto;
+      border: 2px solid var(--ink); border-top: 0;
+      border-radius: 0 0 16px 16px;
+      position: relative; overflow: hidden; background: var(--sheet);
     }
-    .avoid { background: var(--danger-soft); border-color: #f3c7c7; }
-    .note {
-      background: var(--amber-soft);
-      color: var(--amber);
-      border-radius: 14px;
-      padding: 12px 14px;
-      margin-top: 12px;
+    .glass::before {
+      content: ""; position: absolute; left: -2px; right: -2px; top: 0; height: 2px; background: var(--ink);
     }
-    .recipe { border-left: 4px solid var(--green); }
-    .recipe strong { display: block; margin-bottom: 6px; }
-    .bar {
-      height: 10px;
-      background: #ece7dc;
-      border-radius: 99px;
-      overflow: hidden;
-      margin: 8px 0 12px;
+    .liquid {
+      position: absolute; left: 0; right: 0; bottom: 0; height: 0;
+      background: #b7d3b2;
+      transition: height 420ms ease;
     }
-    .bar span {
-      display: block;
-      height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, #0e5c38, #67b48a);
+    .plate {
+      width: 168px; height: 168px;
+      border: 2px solid var(--ink);
+      border-radius: 50%;
+      background: var(--sheet);
+      box-shadow: 0 9px 0 #e4d9c8;
+      display: flex; align-items: center; justify-content: center; gap: 2px;
+      padding: 16px;
     }
-    .status { color: var(--muted); font-size: 0.85rem; margin: 8px 0 0; }
-    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
-    button.ghost, button.solid {
-      border-radius: 12px;
-      padding: 10px 14px;
-      font: inherit;
-      font-weight: 700;
-      cursor: pointer;
+    .plate.is-empty::after { content: "Empty"; color: var(--muted); font-size: 0.85rem; }
+    figcaption { margin-top: 8px; }
+    figcaption strong { display: block; }
+    figcaption span { color: var(--muted); font-size: 0.88rem; }
+    .mini { width: 48px; height: 48px; }
+    .plate .mini { width: 76px; height: 76px; }
+    .plate:has(svg + svg) .mini { width: 52px; height: 52px; }
+    section { padding: 22px 0 8px; border-top: 1px solid var(--line); }
+    h2 { font-size: 1.7rem; margin: 0 0 4px; }
+    .sub { margin: 0 0 14px; color: var(--muted); max-width: 40rem; }
+    .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 8px; }
+    .tile, .dose {
+      text-align: left; background: var(--sheet); border: 1px solid var(--line);
+      border-radius: 16px; cursor: pointer; padding: 10px;
     }
-    button.ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
-    button.solid { background: var(--green); border: 0; color: #fff; }
-    footer { color: var(--muted); font-size: 0.85rem; padding: 8px 0 40px; }
+    .tile { min-height: 148px; display: flex; flex-direction: column; gap: 2px; }
+    .tile svg { width: 72px; height: 72px; }
+    .tile .name, .dose strong { font-weight: 650; }
+    .portion { color: var(--green); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .aka, .dose small, .quiet { color: var(--muted); font-size: 0.82rem; }
+    .tile[aria-checked="true"], .tile[aria-pressed="true"], .dose[aria-pressed="true"] {
+      background: var(--leaf);
+      border-color: var(--green);
+      box-shadow: inset 0 0 0 1px var(--green);
+    }
+    .group-label { margin: 16px 0 8px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .dose { width: 100%; display: flex; gap: 12px; align-items: center; margin-top: 8px; }
+    .dose svg { width: 36px; height: 36px; flex: 0 0 auto; }
+    .dose span:nth-child(2) { flex: 1; }
+    .mark {
+      width: 22px; height: 22px; border: 2px solid var(--ink); border-radius: 50%; flex: 0 0 auto;
+      display: grid; place-items: center;
+    }
+    .dose[aria-pressed="true"] .mark { background: var(--green); border-color: var(--green); }
+    .dose[aria-pressed="true"] .mark::after {
+      content: ""; width: 6px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(40deg) translate(-1px, -1px);
+    }
+    .month { display: flex; gap: 3px; flex-wrap: wrap; margin: 8px 0 12px; }
+    .month i { width: 14px; height: 14px; border: 1px solid var(--ink); border-radius: 2px; display: block; font-style: normal; }
+    .month i.on { background: var(--green); }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    button.text, button.solid {
+      border-radius: 999px; padding: 10px 14px; cursor: pointer; background: transparent; border: 1px solid var(--ink);
+    }
+    button.solid { background: var(--ink); color: #fbf7f0; }
+    .note { background: var(--amber-soft); color: var(--amber); padding: 12px 14px; border-radius: 12px; margin-top: 12px; }
+    .out { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+    @media (min-width: 700px) { .out { grid-template-columns: 1fr 1fr; } }
+    .out li { display: flex; gap: 12px; align-items: center; background: var(--clay-soft); border-radius: 16px; padding: 10px; }
+    .out svg { width: 64px; height: 64px; flex: 0 0 auto; }
+    .greens { display: flex; gap: 8px; align-items: center; }
+    .greens svg { width: 64px; height: 64px; }
+    footer { color: var(--muted); font-size: 0.88rem; padding: 18px 0 48px; }
+    button:focus-visible, a:focus-visible { outline: 3px solid #e0a106; outline-offset: 2px; }
+    @media (prefers-reduced-motion: no-preference) {
+      .liquid { transition: height 420ms ease; }
+      .arrive { animation: settle 260ms ease; }
+      @keyframes settle { from { transform: translateY(8px); opacity: 0; } to { transform: none; opacity: 1; } }
+    }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
+      .liquid { transition: none; }
     }
     @media print {
-      header.hero { background: #fff; color: #000; padding-bottom: 12px; }
-      .lede, nav.sections, .actions, .status, .skip { display: none; }
-      .lift { margin-top: 12px; }
-      .sheet { box-shadow: none; }
+      .now, .actions, .skip { display: none; }
       body { background: #fff; }
+      .plate { box-shadow: none; }
     }
   </style>
 </head>
 <body>
-  <a class="skip" href="#plan">Skip to the plan</a>
-  <header class="hero">
+  <a class="skip" href="#breakfast">Skip to breakfast</a>
+  <svg width="0" height="0" aria-hidden="true" style="position:absolute">
+    <defs>
+      <symbol id="cucumber" viewBox="0 0 72 72">
+        <path d="M14 46c3-16 20-28 38-22 8 2 12 9 9 16-6 16-32 20-47 6z" fill="#cfe6c4" stroke="#1c1915" stroke-width="2"/>
+        <path d="M24 38c10 3 20 2 30-3M22 46c10 2 22 0 32-5" fill="none" stroke="#1c1915" stroke-width="1.4"/>
+      </symbol>
+      <symbol id="egg" viewBox="0 0 72 72">
+        <ellipse cx="36" cy="42" rx="16" ry="18" fill="#f7f1e6" stroke="#1c1915" stroke-width="2"/>
+        <path d="M30 24c2 4 8 6 14 2" fill="#2f7d4a" stroke="#1c1915" stroke-width="1.5"/>
+        <path d="M36 22c1-8 6-10 8-12" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+      </symbol>
+      <symbol id="beans" viewBox="0 0 72 72">
+        <ellipse cx="26" cy="42" rx="9" ry="13" transform="rotate(-18 26 42)" fill="#f0ddc0" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="40" cy="36" rx="9" ry="13" fill="#e7d0aa" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="52" cy="44" rx="8" ry="12" transform="rotate(16 52 44)" fill="#f3e6cf" stroke="#1c1915" stroke-width="2"/>
+      </symbol>
+      <symbol id="fenugreek" viewBox="0 0 72 72">
+        <path d="M36 56V30" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="36" cy="24" rx="7" ry="11" fill="#2f7d4a" stroke="#1c1915" stroke-width="1.6"/>
+        <ellipse cx="24" cy="36" rx="7" ry="11" transform="rotate(-42 24 36)" fill="#3c8d57" stroke="#1c1915" stroke-width="1.6"/>
+        <ellipse cx="48" cy="36" rx="7" ry="11" transform="rotate(42 48 36)" fill="#3c8d57" stroke="#1c1915" stroke-width="1.6"/>
+      </symbol>
+      <symbol id="onion" viewBox="0 0 72 72">
+        <ellipse cx="36" cy="44" rx="16" ry="14" fill="#f6e6ee" stroke="#1c1915" stroke-width="2"/>
+        <path d="M36 30c1-10 4-14 4-16" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+        <path d="M26 42c8 5 14 5 22 0" fill="none" stroke="#1c1915" stroke-width="1.3"/>
+      </symbol>
+      <symbol id="yam" viewBox="0 0 72 72">
+        <path d="M16 44c6-16 22-22 36-12 8 6 8 16 1 22-12 12-30 8-37-10z" fill="#c4a06a" stroke="#1c1915" stroke-width="2"/>
+        <path d="M26 40c10 2 18 0 24-6" fill="none" stroke="#1c1915" stroke-width="1.4"/>
+      </symbol>
+      <symbol id="rice" viewBox="0 0 72 72">
+        <path d="M14 34h44c0 16-9 24-22 24S14 50 14 34z" fill="#f7f1e4" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="36" cy="34" rx="22" ry="7" fill="#fffdf8" stroke="#1c1915" stroke-width="2"/>
+        <circle cx="28" cy="33" r="1.7" fill="#1c1915"/><circle cx="36" cy="31" r="1.7" fill="#1c1915"/><circle cx="44" cy="34" r="1.7" fill="#1c1915"/>
+      </symbol>
+      <symbol id="potato" viewBox="0 0 72 72">
+        <ellipse cx="36" cy="40" rx="20" ry="14" fill="#e6d2a4" stroke="#1c1915" stroke-width="2"/>
+        <circle cx="28" cy="38" r="1.4" fill="#1c1915"/><circle cx="40" cy="44" r="1.4" fill="#1c1915"/><circle cx="46" cy="36" r="1.4" fill="#1c1915"/>
+      </symbol>
+      <symbol id="sweet" viewBox="0 0 72 72">
+        <path d="M14 42c8-16 28-20 40-8 6 6 4 16-4 20-14 8-30 4-36-12z" fill="#e08a45" stroke="#1c1915" stroke-width="2"/>
+        <path d="M24 40c10 3 20 1 28-6" fill="none" stroke="#1c1915" stroke-width="1.4"/>
+      </symbol>
+      <symbol id="fonio" viewBox="0 0 72 72">
+        <path d="M16 36h40c0 14-8 22-20 22S16 50 16 36z" fill="#f4ead0" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="36" cy="36" rx="20" ry="6" fill="#fffaf0" stroke="#1c1915" stroke-width="2"/>
+        <g fill="#1c1915">
+          <circle cx="26" cy="35" r="1.2"/><circle cx="32" cy="33" r="1.2"/><circle cx="38" cy="36" r="1.2"/><circle cx="44" cy="33" r="1.2"/><circle cx="30" cy="38" r="1.1"/><circle cx="40" cy="39" r="1.1"/>
+        </g>
+      </symbol>
+      <symbol id="awara" viewBox="0 0 72 72">
+        <rect x="14" y="30" width="16" height="16" rx="3" fill="#f7f3ea" stroke="#1c1915" stroke-width="2"/>
+        <rect x="28" y="24" width="16" height="16" rx="3" fill="#fffdf8" stroke="#1c1915" stroke-width="2"/>
+        <rect x="42" y="32" width="16" height="16" rx="3" fill="#f3eee4" stroke="#1c1915" stroke-width="2"/>
+      </symbol>
+      <symbol id="spaghetti" viewBox="0 0 72 72">
+        <path d="M18 48c6-14 8-14 14 0s8 14 14 0 8-14 10 0" fill="none" stroke="#e0b15a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M16 52c8-10 10-8 16 2s8 12 14 0 8-12 12 0" fill="none" stroke="#c4923a" stroke-width="3" stroke-linecap="round"/>
+        <path d="M22 24h28l-4 10H26z" fill="none" stroke="#1c1915" stroke-width="2"/>
+      </symbol>
+      <symbol id="soup1" viewBox="0 0 72 72">
+        <path d="M20 44c0-14 8-24 8-24s2 8 0 16 2 16-8 8z" fill="#1f6a38" stroke="#1c1915" stroke-width="1.7"/>
+        <path d="M40 46c2-16 12-22 12-22s4 8 1 16-2 14-13 6z" fill="#3e8f55" stroke="#1c1915" stroke-width="1.7"/>
+      </symbol>
+      <symbol id="soup2" viewBox="0 0 72 72">
+        <path d="M18 46c2-16 14-26 16-26 0 8-2 16-6 22s-12 10-10 4z" fill="#6ea36a" stroke="#1c1915" stroke-width="1.7"/>
+        <path d="M42 18c8 10 8 28 4 36" fill="none" stroke="#1c1915" stroke-width="2"/>
+        <path d="M40 28c8 2 14 2 18-2M38 38c10 2 16 0 20-6" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+      </symbol>
+      <symbol id="melon" viewBox="0 0 72 72">
+        <path d="M14 40a28 28 0 0 1 44 0z" fill="#e25b55" stroke="#1c1915" stroke-width="2"/>
+        <path d="M14 40h44" stroke="#1c1915" stroke-width="2"/>
+        <path d="M18 40c2 8 8 12 18 12s16-4 18-12" fill="#f4b9a4" stroke="#1c1915" stroke-width="1.5"/>
+      </symbol>
+      <symbol id="apple" viewBox="0 0 72 72">
+        <circle cx="36" cy="42" r="16" fill="#d4534a" stroke="#1c1915" stroke-width="2"/>
+        <path d="M36 26c2-8 8-10 10-12" fill="none" stroke="#1c1915" stroke-width="2"/>
+        <ellipse cx="46" cy="24" rx="6" ry="3" transform="rotate(20 46 24)" fill="#2f7d4a" stroke="#1c1915" stroke-width="1.4"/>
+      </symbol>
+      <symbol id="pawpaw" viewBox="0 0 72 72">
+        <path d="M36 16c10 8 16 20 16 32a16 16 0 0 1-32 0c0-12 6-24 16-32z" fill="#f0a35a" stroke="#1c1915" stroke-width="2"/>
+        <circle cx="30" cy="44" r="2" fill="#2a241c"/><circle cx="40" cy="40" r="2" fill="#2a241c"/><circle cx="38" cy="50" r="2" fill="#2a241c"/>
+      </symbol>
+      <symbol id="mango" viewBox="0 0 72 72">
+        <path d="M20 44c2-16 16-24 28-16 8 6 10 18 2 24-10 8-26 4-30-8z" fill="#e3a322" stroke="#1c1915" stroke-width="2"/>
+        <path d="M34 24c4-8 10-10 12-12" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+      </symbol>
+      <symbol id="banana" viewBox="0 0 72 72">
+        <path d="M22 20c18 2 28 14 26 34-8 2-16-2-20-12-4-10-8-16-6-22z" fill="#f2d35a" stroke="#1c1915" stroke-width="2"/>
+        <path d="M24 22c2-4 4-6 6-6" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+      </symbol>
+      <symbol id="carrot" viewBox="0 0 72 72">
+        <path d="M36 28c8 0 14 6 12 14-4 16-8 24-12 24s-8-8-12-24c-2-8 4-14 12-14z" fill="#e07a32" stroke="#1c1915" stroke-width="2"/>
+        <path d="M30 20c4 6 8 6 12 0M28 16c6 4 12 4 16-2" fill="none" stroke="#2f7d4a" stroke-width="2"/>
+      </symbol>
+      <symbol id="chicken" viewBox="0 0 72 72">
+        <path d="M18 46c4-16 16-22 28-14 6 4 10 12 6 18-6 8-26 10-34-4z" fill="#f0d2b0" stroke="#1c1915" stroke-width="2"/>
+        <path d="M44 28c6-2 10 2 8 8" fill="none" stroke="#1c1915" stroke-width="2"/>
+      </symbol>
+      <symbol id="fish" viewBox="0 0 72 72">
+        <path d="M16 36c10-12 28-12 40 0-12 12-30 12-40 0z" fill="#8fb8c4" stroke="#1c1915" stroke-width="2"/>
+        <path d="M52 36l10-8v16z" fill="#d7ebf0" stroke="#1c1915" stroke-width="2"/>
+        <circle cx="28" cy="35" r="1.6" fill="#1c1915"/>
+      </symbol>
+      <symbol id="meat" viewBox="0 0 72 72">
+        <path d="M18 40c2-12 16-18 30-12 8 4 10 14 4 20-8 8-28 8-34-8z" fill="#d48978" stroke="#1c1915" stroke-width="2"/>
+        <path d="M22 28c4-6 6-6 8-2" fill="none" stroke="#f4efe6" stroke-width="3"/>
+      </symbol>
+      <symbol id="greens" viewBox="0 0 72 72">
+        <path d="M16 48c2-18 12-28 14-28 0 10-2 18-8 24 8-2 16 0 18 8-12 4-22 2-24-4z" fill="#2f7d4a" stroke="#1c1915" stroke-width="1.6"/>
+        <path d="M36 50c4-16 16-26 20-24-2 12-8 20-16 24 6 0 14 2 14 8-14 2-22-2-18-8z" fill="#3e8f55" stroke="#1c1915" stroke-width="1.6"/>
+      </symbol>
+      <symbol id="capsule" viewBox="0 0 72 72">
+        <rect x="16" y="28" width="40" height="16" rx="8" fill="#f7f1e6" stroke="#1c1915" stroke-width="2"/>
+        <path d="M36 28v16" stroke="#1c1915" stroke-width="2"/>
+        <path d="M16 36h20" stroke="#1d6b42" stroke-width="8"/>
+      </symbol>
+      <symbol id="soda" viewBox="0 0 72 72">
+        <path d="M30 16h12l-2 8H32z" fill="#d7e7f2" stroke="#1c1915" stroke-width="2"/>
+        <rect x="28" y="24" width="16" height="32" rx="4" fill="#c5dceb" stroke="#1c1915" stroke-width="2"/>
+        <path d="M18 54L54 20" stroke="#8a3d2f" stroke-width="3"/>
+      </symbol>
+      <symbol id="juice" viewBox="0 0 72 72">
+        <path d="M26 20h20l-4 36H30z" fill="#f3dd9a" stroke="#1c1915" stroke-width="2"/>
+        <path d="M30 20c4-6 8-6 12 0" fill="none" stroke="#1c1915" stroke-width="2"/>
+        <path d="M18 54L54 20" stroke="#8a3d2f" stroke-width="3"/>
+      </symbol>
+      <symbol id="tin" viewBox="0 0 72 72">
+        <ellipse cx="36" cy="24" rx="16" ry="6" fill="#e7e2da" stroke="#1c1915" stroke-width="2"/>
+        <path d="M20 24v22c0 4 7 8 16 8s16-4 16-8V24" fill="#f4efe6" stroke="#1c1915" stroke-width="2"/>
+        <path d="M18 54L54 20" stroke="#8a3d2f" stroke-width="3"/>
+      </symbol>
+      <symbol id="cube" viewBox="0 0 72 72">
+        <path d="M22 30l14-8 14 8-14 8z" fill="#efe6c8" stroke="#1c1915" stroke-width="2"/>
+        <path d="M22 30v16l14 8V38M50 30v16l-14 8" fill="#e4d7a8" stroke="#1c1915" stroke-width="2"/>
+        <path d="M18 54L54 20" stroke="#8a3d2f" stroke-width="3"/>
+      </symbol>
+    </defs>
+  </svg>
+
+  <header class="top">
     <div class="wrap">
-      <p class="kicker">Personal nutrition handout</p>
-      <h1>Sebo’s eating plan</h1>
-      <p class="lede">Transcribed from the dietitian’s notes and set out as a daily sheet. Portions stay in grams. Nothing here was added to the food list.</p>
+      <p class="who">Sebo</p>
+      <h1>Today</h1>
+      <p class="when" id="when"></p>
+      <p class="motto">Sweet is death. Bitter is life. Written for blood pressure, diabetes, and cholesterol. Portions are the ones on the dietitian’s note.</p>
     </div>
   </header>
 
-  <main id="plan" class="wrap">
-    <section class="sheet lift" aria-labelledby="motto-title">
-      <h2 id="motto-title">The rule on the note</h2>
-      <div class="motto">
-        <p class="stop"><strong>Sweet is death.</strong> No sugary drinks or sweetened juices.</p>
-        <p class="go"><strong>Bitter is life.</strong> Bitter leaf, scent leaf, utazi, and fenugreek stay in the plan.</p>
+  <div class="now">
+    <div class="wrap">
+      <p id="status">Loading today’s plate.</p>
+      <nav class="jump" aria-label="Sections">
+        <a href="#breakfast">Breakfast</a>
+        <a href="#plates">Plates</a>
+        <a href="#fruit">Fruit</a>
+        <a href="#doses">Tablets</a>
+        <a href="#out">Keep out</a>
+      </nav>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="stage" aria-hidden="true">
+      <figure class="vessel">
+        <div class="mix">
+          <div class="gathered" id="glass-icons"></div>
+          <div class="glass"><span class="liquid" id="liquid"></span></div>
+        </div>
+        <figcaption><strong>Breakfast</strong><span id="glass-caption">Nothing in the glass yet</span></figcaption>
+      </figure>
+      <figure class="dish">
+        <div class="plate is-empty" id="plate-p1"></div>
+        <figcaption><strong>First plate</strong><span id="cap-p1">Choose one staple</span></figcaption>
+      </figure>
+      <figure class="dish" id="dish-p2" hidden>
+        <div class="plate is-empty" id="plate-p2"></div>
+        <figcaption><strong>Second plate</strong><span id="cap-p2">Choose one staple</span></figcaption>
+      </figure>
+    </div>
+
+    <section id="breakfast">
+      <h2>Breakfast cocktail</h2>
+      <p class="sub">Tap each food into the glass. Blend it, or eat the same foods as a salad. Only the yam bean has a set amount.</p>
+      <div class="tiles" id="breakfast-tiles"></div>
+    </section>
+
+    <section id="plates">
+      <h2>Plates</h2>
+      <p class="sub">One staple on a plate, at the weight written below. Soup and protein sit with it. Vegetables have no limit, so they are not a choice to tick.</p>
+      <div class="greens">
+        <svg viewBox="0 0 72 72" aria-hidden="true"><use href="#greens"/></svg>
+        <p class="sub" style="margin:0">Any vegetables, with either plate.</p>
       </div>
-      <div class="conditions" aria-label="Conditions named on the note">
-        <span class="chip">Hypertension</span>
-        <span class="chip">Diabetes mellitus</span>
-        <span class="chip">Cholesterol</span>
-      </div>
-    </section>
-
-    <nav class="sections" aria-label="Plan sections">
-      <ul>
-        <li><a href="#how">How to follow</a></li>
-        <li><a href="#avoid">Remove</a></li>
-        <li><a href="#breakfast">Breakfast</a></li>
-        <li><a href="#staples">Staples</a></li>
-        <li><a href="#soups">Soups</a></li>
-        <li><a href="#fruit">Fruit</a></li>
-        <li><a href="#protein">Protein</a></li>
-        <li><a href="#supplements">Supplements</a></li>
-      </ul>
-    </nav>
-
-    <section class="sheet" id="how" aria-labelledby="how-title">
-      <h2 id="how-title"><span class="num">01</span>How to follow it</h2>
-      <p class="sub">Four instructions already on the note, written as a daily order.</p>
-      <ol class="rules">
-        <li>Build breakfast as the cocktail: blend it into a smoothie, or eat it as a salad.</li>
-        <li>At each main meal, choose one staple and keep to the stated portion.</li>
-        <li>Vegetables are unrestricted. Meat, chicken, or fish is 50 g.</li>
-        <li>Take the supplements for one month, and tick each dose on the day you take it.</li>
-      </ol>
-      <p class="status" id="save-status">Ticks are saved in this browser only. They are not sent anywhere.</p>
-    </section>
-
-    <section class="sheet" id="avoid" aria-labelledby="avoid-title">
-      <h2 id="avoid-title"><span class="num">02</span>Remove completely</h2>
-      <p class="sub">Cut these out. The reasons are the ones written on the note.</p>
-      <button class="item avoid" type="button" data-check="avoid-soda" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Soft drinks</span><span class="why">Coke, Fanta, energy drinks, and drinks like them.</span></span>
-      </button>
-      <button class="item avoid" type="button" data-check="avoid-juice" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Juices</span><span class="why">Packaged and sweetened juices.</span></span>
-      </button>
-      <button class="item avoid" type="button" data-check="avoid-canned" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Canned foods</span><span class="why">High in salt and preservatives.</span></span>
-      </button>
-      <button class="item avoid" type="button" data-check="avoid-cubes" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Maggi and seasoning cubes</span><span class="aka">Bouillon cubes</span><span class="why">Very high in salt.</span></span>
-      </button>
-    </section>
-
-    <section class="sheet" id="breakfast" aria-labelledby="bf-title">
-      <h2 id="bf-title"><span class="num">03</span>Breakfast cocktail</h2>
-      <p class="sub">Blend as a smoothie, or eat as a salad. Tick each item as you add it.</p>
-      <button class="item" type="button" data-check="bf-cucumber" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Cucumber</span><span class="aka">Cucumis sativus</span></span>
-      </button>
-      <button class="item" type="button" data-check="bf-garden-egg" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Garden egg</span><span class="aka">African eggplant · Solanum aethiopicum</span></span>
-      </button>
-      <button class="item" type="button" data-check="bf-yam-bean" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">African yam bean</span><span class="aka">Sphenostylis stenocarpa</span><span class="portion">1 tablespoon</span></span>
-      </button>
-      <button class="item" type="button" data-check="bf-fenugreek" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Fenugreek</span><span class="aka">Trigonella foenum-graecum</span></span>
-      </button>
-      <button class="item" type="button" data-check="bf-onion" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Fresh onions</span><span class="aka">Allium cepa</span></span>
-      </button>
-    </section>
-
-    <section class="sheet" id="staples" aria-labelledby="staple-title">
-      <h2 id="staple-title"><span class="num">04</span>Staples, one per meal</h2>
-      <p class="sub">Pick one food for the meal and stop at the portion. Grams are the dietitian’s figures. Only spaghetti and awara were given as household measures.</p>
-      <button class="item" type="button" data-check="staple-yam" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Yam with vegetables</span><span class="aka">Dioscorea</span><span class="portion">200 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-rice" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Rice</span><span class="portion">200 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-beans" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Beans</span><span class="portion">250 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-irish" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Irish potatoes</span><span class="aka">White potato · Solanum tuberosum</span><span class="portion">200 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-sweet" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Sweet potatoes</span><span class="aka">Ipomoea batatas</span><span class="portion">250 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-acha" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Acha</span><span class="aka">Fonio · Digitaria exilis</span><span class="portion">200 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-awara" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Awara</span><span class="aka">Soy curd, the same family as tofu</span><span class="portion">3 pieces</span></span>
-      </button>
-      <button class="item" type="button" data-check="staple-spaghetti" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Spaghetti</span><span class="portion">1 kitchen-spoon portion</span></span>
-      </button>
-    </section>
-
-    <section class="sheet" id="soups" aria-labelledby="soup-title">
-      <h2 id="soup-title"><span class="num">05</span>Two soups</h2>
-      <p class="sub">Both recipes use African yam bean and fenugreek. Tick the soup you make.</p>
-      <div class="grid two">
-        <article class="recipe sheet">
-          <strong>Soup 1</strong>
-          Bitter leaf (Vernonia amygdalina) + scent leaf (Ocimum gratissimum) + African yam bean + fenugreek.
-          <button class="item" type="button" data-check="soup-1" aria-pressed="false" style="margin-top:10px">
-            <span class="box" aria-hidden="true"></span>
-            <span><span class="name">Made soup 1 today</span></span>
-          </button>
-        </article>
-        <article class="recipe sheet">
-          <strong>Soup 2</strong>
-          Garden egg leaf + utazi leaf (Gongronema latifolium) + African yam bean + fenugreek.
-          <button class="item" type="button" data-check="soup-2" aria-pressed="false" style="margin-top:10px">
-            <span class="box" aria-hidden="true"></span>
-            <span><span class="name">Made soup 2 today</span></span>
-          </button>
-        </article>
-      </div>
-    </section>
-
-    <section class="sheet" id="fruit" aria-labelledby="fruit-title">
-      <h2 id="fruit-title"><span class="num">06</span>Fruit portions</h2>
-      <p class="sub">Each fruit on the note is paired with “A”. Carrot is written as 2 + 1A. The note does not spell out what A is.</p>
-      <button class="item" type="button" data-check="fruit-melon" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Watermelon</span><span class="portion">½ + A</span></span>
-      </button>
-      <button class="item" type="button" data-check="fruit-apple" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Apple</span><span class="portion">1 + A</span></span>
-      </button>
-      <button class="item" type="button" data-check="fruit-pawpaw" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Pawpaw</span><span class="aka">Papaya</span><span class="portion">½ + A</span></span>
-      </button>
-      <button class="item" type="button" data-check="fruit-mango" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Mango</span><span class="portion">1 + A</span></span>
-      </button>
-      <button class="item" type="button" data-check="fruit-banana" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Banana</span><span class="portion">1 + A</span></span>
-      </button>
-      <button class="item" type="button" data-check="fruit-carrot" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Carrot</span><span class="portion">2 + 1A</span></span>
-      </button>
-      <p class="note">Confirm with the dietitian what “A” means before treating it as a second food. It is copied here exactly as it appears on the note.</p>
-    </section>
-
-    <section class="sheet" id="protein" aria-labelledby="protein-title">
-      <h2 id="protein-title"><span class="num">07</span>Vegetables and protein</h2>
-      <p class="sub">All vegetables are allowed. Protein foods are limited to 50 g.</p>
-      <p class="note">Vegetables: no restriction on the note. Use them with the staple and with either soup.</p>
-      <button class="item" type="button" data-check="pro-chicken" aria-pressed="false" style="margin-top:10px">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Chicken</span><span class="portion">50 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="pro-fish" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Fish</span><span class="portion">50 g</span></span>
-      </button>
-      <button class="item" type="button" data-check="pro-meat" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Grilled meat</span><span class="portion">50 g</span></span>
-      </button>
-    </section>
-
-    <section class="sheet" id="supplements" aria-labelledby="sup-title">
-      <h2 id="sup-title"><span class="num">08</span>Supplements, one month</h2>
-      <p class="sub">Strength is shown only where the note gives it. Twice daily is tracked as a morning dose and an evening dose.</p>
-      <p class="status" id="month-status">Set the first day of the course to count the month.</p>
-      <div class="bar" aria-hidden="true"><span id="month-bar"></span></div>
-      <button class="dose" type="button" data-check="sup-b-am" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">B-complex, morning</span><span class="why">2 tablets, twice daily</span></span>
-      </button>
-      <button class="dose" type="button" data-check="sup-b-pm" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">B-complex, evening</span><span class="why">2 tablets, twice daily</span></span>
-      </button>
-      <button class="dose" type="button" data-check="sup-c-am" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Vitamin C, morning</span><span class="why">100 mg · 2 tablets, twice daily</span></span>
-      </button>
-      <button class="dose" type="button" data-check="sup-c-pm" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Vitamin C, evening</span><span class="why">100 mg · 2 tablets, twice daily</span></span>
-      </button>
-      <button class="dose" type="button" data-check="sup-folic" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Folic acid</span><span class="why">1 daily</span></span>
-      </button>
-      <button class="dose" type="button" data-check="sup-omega" aria-pressed="false">
-        <span class="box" aria-hidden="true"></span>
-        <span><span class="name">Omega-3 fatty acids</span><span class="why">500 mg · daily</span></span>
-      </button>
-      <div class="bar" role="meter" id="today-meter" aria-label="Today’s doses ticked" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
-        <span id="today-bar"></span>
-      </div>
+      <div id="plate-forms"></div>
       <div class="actions">
-        <button class="solid" type="button" id="start-course">Start the one-month course today</button>
-        <button class="ghost" type="button" id="reset-day">Clear today’s ticks</button>
+        <button class="text" type="button" id="toggle-p2">Add a second plate</button>
+        <button class="text" type="button" id="reset-day">Clear today</button>
       </div>
+    </section>
+
+    <section id="fruit">
+      <h2>Fruit</h2>
+      <p class="sub">One choice. Each amount on the note is paired with “A”. The note does not say what A is.</p>
+      <div class="tiles" id="fruit-tiles"></div>
+      <p class="note">Ask the dietitian what “A” means before treating it as another food. It is copied here as written, including carrot as 2 + 1A.</p>
+    </section>
+
+    <section id="doses">
+      <h2>Tablets, for one month</h2>
+      <p class="sub" id="month-line">Count starts when you say the course has begun.</p>
+      <div class="month" id="month" aria-hidden="true"></div>
+      <div id="dose-list"></div>
+      <div class="actions">
+        <button class="solid" type="button" id="start-course">Count the 30 days from today</button>
+      </div>
+    </section>
+
+    <section id="out">
+      <h2>Keep these out</h2>
+      <p class="sub">Removed completely. The reasons are the ones on the note.</p>
+      <ul class="out">
+        <li><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#soda"/></svg><span><strong>Soft drinks.</strong> Coke, Fanta, energy drinks, and drinks of that kind.</span></li>
+        <li><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#juice"/></svg><span><strong>Juices.</strong> Packaged and sweetened.</span></li>
+        <li><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#tin"/></svg><span><strong>Canned foods.</strong> High in salt and preservatives.</span></li>
+        <li><svg viewBox="0 0 72 72" aria-hidden="true"><use href="#cube"/></svg><span><strong>Maggi and seasoning cubes.</strong> Bouillon. Very high in salt.</span></li>
+      </ul>
     </section>
 
     <footer>
-      <p>This page copies the dietitian’s handwritten list. It is Sebo’s plan, not a general diet. Check anything unclear, including the mark “A”, with the dietitian before changing what she eats or the supplements she takes.</p>
-      <p id="cache-status">This browser is storing a copy of the page so it can open again without a new download.</p>
+      <p id="cache-line">Ticks stay on this phone. They are not sent anywhere.</p>
+      <p>This is Sebo’s copy of the dietitian’s list, not a general diet. Check anything unclear, including “A”, before changing the food or the tablets.</p>
     </footer>
-  </main>
+  </div>
+
   <script>
-    const KEY = "sebo-eating-plan-v1";
-    const checks = [...document.querySelectorAll("[data-check]")];
-    const saveStatus = document.getElementById("save-status");
-    const monthStatus = document.getElementById("month-status");
-    const monthBar = document.getElementById("month-bar");
-    const todayBar = document.getElementById("today-bar");
-    const todayMeter = document.getElementById("today-meter");
-    const doses = checks.filter((button) => button.dataset.check.startsWith("sup-"));
+    const KEY = "sebo-eating-plan-v2";
+    const breakfast = [
+      ["cucumber", "Cucumber", "", ""],
+      ["egg", "Garden egg", "", "African eggplant"],
+      ["beans", "African yam bean", "1 tablespoon", ""],
+      ["fenugreek", "Fenugreek", "", ""],
+      ["onion", "Fresh onions", "", ""]
+    ];
+    const staples = [
+      ["yam", "Yam with vegetables", "200 g", ""],
+      ["rice", "Rice", "200 g", ""],
+      ["beans", "Beans", "250 g", ""],
+      ["potato", "Irish potatoes", "200 g", ""],
+      ["sweet", "Sweet potatoes", "250 g", ""],
+      ["fonio", "Acha", "200 g", "Fonio"],
+      ["awara", "Awara", "3 pieces", "Soy curd"],
+      ["spaghetti", "Spaghetti", "1 kitchen spoon", ""]
+    ];
+    const soups = [
+      ["soup1", "Soup 1", "", "Bitter leaf, scent leaf, yam bean, fenugreek"],
+      ["soup2", "Soup 2", "", "Garden egg leaf, utazi, yam bean, fenugreek"]
+    ];
+    const proteins = [
+      ["chicken", "Chicken", "50 g", ""],
+      ["fish", "Fish", "50 g", ""],
+      ["meat", "Grilled meat", "50 g", ""]
+    ];
+    const fruits = [
+      ["melon", "Watermelon", "½ + A", ""],
+      ["apple", "Apple", "1 + A", ""],
+      ["pawpaw", "Pawpaw", "½ + A", "Papaya"],
+      ["mango", "Mango", "1 + A", ""],
+      ["banana", "Banana", "1 + A", ""],
+      ["carrot", "Carrot", "2 + 1A", ""]
+    ];
+    const doses = [
+      ["b-am", "B-complex, morning", "2 tablets"],
+      ["b-pm", "B-complex, evening", "2 tablets"],
+      ["c-am", "Vitamin C, morning", "100 mg · 2 tablets"],
+      ["c-pm", "Vitamin C, evening", "100 mg · 2 tablets"],
+      ["folic", "Folic acid", "1 daily"],
+      ["omega", "Omega-3", "500 mg · daily"]
+    ];
+    const names = {};
+    [...breakfast, ...staples, ...soups, ...proteins, ...fruits].forEach(([id, name]) => { names[id] = name; });
 
     const todayKey = () => {
-      const now = new Date();
-      return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+      const n = new Date();
+      return [n.getFullYear(), String(n.getMonth() + 1).padStart(2, "0"), String(n.getDate()).padStart(2, "0")].join("-");
     };
-
-    const emptyState = () => ({ day: todayKey(), ticks: {}, start: null });
-
+    const blank = () => ({
+      day: todayKey(),
+      breakfast: {},
+      p1: { staple: null, soup: null, protein: null },
+      p2: { staple: null, soup: null, protein: null },
+      p2open: false,
+      fruit: null,
+      doses: {},
+      start: null
+    });
     const load = () => {
       try {
         const saved = JSON.parse(localStorage.getItem(KEY) || "null");
-        if (!saved || typeof saved !== "object") return emptyState();
-        if (saved.day !== todayKey()) return { day: todayKey(), ticks: {}, start: saved.start || null };
-        saved.ticks = saved.ticks || {};
-        return saved;
-      } catch {
-        return emptyState();
-      }
+        if (!saved || saved.day !== todayKey()) return { ...blank(), start: saved && saved.start || null };
+        return Object.assign(blank(), saved);
+      } catch { return blank(); }
     };
-
     let state = load();
 
-    const paint = () => {
-      checks.forEach((button) => {
-        const on = Boolean(state.ticks[button.dataset.check]);
-        button.setAttribute("aria-pressed", on ? "true" : "false");
+    const tile = (icon, name, portion, aka, attrs) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "tile";
+      button.innerHTML = `<svg viewBox="0 0 72 72" aria-hidden="true"><use href="#${icon}"/></svg><span class="name">${name}</span>${portion ? `<span class="portion">${portion}</span>` : ""}${aka ? `<span class="aka">${aka}</span>` : ""}`;
+      Object.entries(attrs).forEach(([k, v]) => button.dataset[k] = v);
+      return button;
+    };
+
+    const breakfastBox = document.getElementById("breakfast-tiles");
+    breakfast.forEach(([id, name, portion, aka]) => {
+      const button = tile(id, name, portion, aka, { field: "breakfast", value: id });
+      button.setAttribute("aria-pressed", "false");
+      breakfastBox.appendChild(button);
+    });
+
+    const forms = document.getElementById("plate-forms");
+    ["p1", "p2"].forEach((scope) => {
+      const block = document.createElement("div");
+      block.id = "form-" + scope;
+      if (scope === "p2") block.hidden = true;
+      block.innerHTML = `<p class="group-label">${scope === "p1" ? "First plate" : "Second plate"}</p>`;
+      const addRow = (label, field, items) => {
+        const p = document.createElement("p");
+        p.className = "group-label";
+        p.textContent = label;
+        const grid = document.createElement("div");
+        grid.className = "tiles";
+        grid.setAttribute("role", "group");
+        grid.setAttribute("aria-label", label + " for the " + (scope === "p1" ? "first" : "second") + " plate");
+        items.forEach(([id, name, portion, aka]) => {
+          const button = tile(id, name, portion, aka, { field, value: id, scope });
+          button.setAttribute("aria-checked", "false");
+          grid.appendChild(button);
+        });
+        block.appendChild(p);
+        block.appendChild(grid);
+      };
+      addRow("Staple, one only", "staple", staples);
+      addRow("Soup", "soup", soups);
+      addRow("Protein", "protein", proteins);
+      forms.appendChild(block);
+    });
+
+    const fruitBox = document.getElementById("fruit-tiles");
+    fruits.forEach(([id, name, portion, aka]) => {
+      const button = tile(id, name, portion, aka, { field: "fruit", value: id });
+      button.setAttribute("aria-checked", "false");
+      fruitBox.appendChild(button);
+    });
+
+    const doseList = document.getElementById("dose-list");
+    doses.forEach(([id, name, note]) => {
+      const button = document.createElement("button");
+      button.type = "button";
+      button.className = "dose";
+      button.dataset.field = "dose";
+      button.dataset.value = id;
+      button.setAttribute("aria-pressed", "false");
+      button.innerHTML = `<svg viewBox="0 0 72 72" aria-hidden="true"><use href="#capsule"/></svg><span><strong>${name}</strong><small>${note}</small></span><span class="mark" aria-hidden="true"></span>`;
+      doseList.appendChild(button);
+    });
+
+    const month = document.getElementById("month");
+    for (let i = 0; i < 30; i++) {
+      const mark = document.createElement("i");
+      month.appendChild(mark);
+    }
+
+    const icon = (id) => {
+      const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("viewBox", "0 0 72 72");
+      svg.setAttribute("class", "mini arrive");
+      svg.setAttribute("aria-hidden", "true");
+      const use = document.createElementNS("http://www.w3.org/2000/svg", "use");
+      use.setAttribute("href", "#" + id);
+      svg.appendChild(use);
+      return svg;
+    };
+
+    const fillPlate = (element, plate) => {
+      const sig = [plate.staple, plate.soup, plate.protein].join("|");
+      if (element.dataset.sig === sig) return;
+      element.dataset.sig = sig;
+      element.replaceChildren();
+      ["staple", "soup", "protein"].forEach((field) => {
+        if (plate[field]) element.appendChild(icon(plate[field]));
       });
-      const done = doses.filter((button) => state.ticks[button.dataset.check]).length;
-      todayBar.style.width = (done / doses.length) * 100 + "%";
-      todayMeter.setAttribute("aria-valuenow", String(done));
-      if (state.start) {
-        const start = new Date(state.start + "T00:00:00");
-        const dayNumber = Math.floor((new Date(todayKey() + "T00:00:00") - start) / 86400000) + 1;
-        const shown = Math.max(1, Math.min(dayNumber, 30));
-        monthBar.style.width = (shown / 30) * 100 + "%";
-        monthStatus.textContent = dayNumber > 30
-          ? "The one-month course on this note has passed. Ask the dietitian before continuing."
-          : "Day " + shown + " of 30, counted from " + state.start + ".";
+      element.classList.toggle("is-empty", element.childElementCount === 0);
+    };
+
+    const caption = (plate) => {
+      if (!plate.staple) return "Choose one staple";
+      const staple = staples.find(([id]) => id === plate.staple);
+      const bits = [staple[1] + ", " + staple[2]];
+      if (plate.soup) bits.push(names[plate.soup]);
+      if (plate.protein) bits.push(names[plate.protein] + ", 50 g");
+      return bits.join(" · ");
+    };
+
+    const paint = () => {
+      document.querySelectorAll("[data-field]").forEach((button) => {
+        const { field, value, scope } = button.dataset;
+        let on = false;
+        if (field === "breakfast") on = !!state.breakfast[value];
+        else if (field === "dose") on = !!state.doses[value];
+        else if (field === "fruit") on = state.fruit === value;
+        else on = state[scope][field] === value;
+        button.setAttribute(field === "breakfast" || field === "dose" ? "aria-pressed" : "aria-checked", on ? "true" : "false");
+      });
+
+      const glass = document.getElementById("glass-icons");
+      const shown = breakfast.filter(([id]) => state.breakfast[id]).map(([id]) => id).join(",");
+      if (glass.dataset.shown !== shown) {
+        glass.replaceChildren();
+        breakfast.forEach(([id]) => { if (state.breakfast[id]) glass.appendChild(icon(id)); });
+        glass.dataset.shown = shown;
       }
-      saveStatus.textContent = "Saved on this phone or computer for " + state.day + ". Ticks are not sent anywhere.";
+      const count = breakfast.filter(([id]) => state.breakfast[id]).length;
+      document.getElementById("liquid").style.height = (count / breakfast.length * 100) + "%";
+      document.getElementById("glass-caption").textContent = count ? count + " of 5 in the glass" : "Nothing in the glass yet";
+
+      fillPlate(document.getElementById("plate-p1"), state.p1);
+      document.getElementById("cap-p1").textContent = caption(state.p1);
+      document.querySelector(".stage").classList.toggle("two", state.p2open);
+      document.getElementById("dish-p2").hidden = !state.p2open;
+      document.getElementById("form-p2").hidden = !state.p2open;
+      fillPlate(document.getElementById("plate-p2"), state.p2);
+      document.getElementById("cap-p2").textContent = caption(state.p2);
+      document.getElementById("toggle-p2").textContent = state.p2open ? "Hide the second plate" : "Add a second plate";
+
+      const doseDone = doses.filter(([id]) => state.doses[id]).length;
+      const open = [];
+      if (count < 5) open.push("breakfast " + count + "/5");
+      if (!state.p1.staple) open.push("first plate open");
+      if (!state.fruit) open.push("fruit open");
+      if (doseDone < doses.length) open.push((doses.length - doseDone) + " tablets left");
+      document.getElementById("status").textContent = open.length ? open.join(" · ") : "Today is set.";
+
+      const when = new Date();
+      document.getElementById("when").textContent = when.toLocaleDateString("en-GB", { weekday: "long", day: "numeric", month: "long" });
+      const marks = [...month.children];
+      marks.forEach((mark) => mark.classList.remove("on"));
+      const line = document.getElementById("month-line");
+      if (state.start) {
+        const dayNumber = Math.floor((new Date(todayKey() + "T00:00:00") - new Date(state.start + "T00:00:00")) / 86400000) + 1;
+        const shownDay = Math.max(1, Math.min(dayNumber, 30));
+        marks.forEach((mark, index) => mark.classList.toggle("on", index < shownDay));
+        line.textContent = dayNumber > 30
+          ? "The month on this note has passed. Ask the dietitian before continuing the tablets."
+          : "Day " + shownDay + " of 30, from " + state.start + ".";
+      }
     };
 
     const persist = () => {
@@ -519,33 +632,38 @@
       paint();
     };
 
-    checks.forEach((button) => {
-      button.addEventListener("click", () => {
-        const id = button.dataset.check;
-        state.ticks[id] = !state.ticks[id];
-        persist();
-      });
-    });
-
-    document.getElementById("reset-day").addEventListener("click", () => {
-      state.ticks = {};
-      state.day = todayKey();
+    document.body.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-field]");
+      if (!button) return;
+      const { field, value, scope } = button.dataset;
+      if (field === "breakfast") state.breakfast[value] = !state.breakfast[value];
+      else if (field === "dose") state.doses[value] = !state.doses[value];
+      else if (field === "fruit") state.fruit = state.fruit === value ? null : value;
+      else state[scope][field] = state[scope][field] === value ? null : value;
       persist();
     });
 
+    document.getElementById("toggle-p2").addEventListener("click", () => {
+      state.p2open = !state.p2open;
+      if (!state.p2open) state.p2 = { staple: null, soup: null, protein: null };
+      persist();
+    });
+    document.getElementById("reset-day").addEventListener("click", () => {
+      const start = state.start;
+      state = blank();
+      state.start = start;
+      persist();
+    });
     document.getElementById("start-course").addEventListener("click", () => {
       if (!state.start) state.start = todayKey();
       persist();
     });
 
     paint();
-
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("./sw.js", { scope: "./" }).then(() => {
-        document.getElementById("cache-status").textContent = "A copy is saved in this browser. After the first visit, the plan still opens if the network drops.";
-      }).catch(() => {
-        document.getElementById("cache-status").textContent = "The page is open. Browser storage for offline use did not start in this visit.";
-      });
+        document.getElementById("cache-line").textContent = "A copy of this page is kept on this phone, and today’s ticks stay here.";
+      }).catch(() => {});
     }
   </script>
 </body>
