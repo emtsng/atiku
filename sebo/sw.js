@@ -1,4 +1,4 @@
-const CACHE = "sebo-plan-v2";
+const CACHE = "sebo-plan-v3";
 
 self.addEventListener("install", (event) => {
   event.waitUntil(

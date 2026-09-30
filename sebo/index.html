@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex, nofollow">
-  <meta name="theme-color" content="#f4efe6">
+  <meta name="theme-color" content="#143d2c">
   <meta name="description" content="Sebo's personal eating plan, transcribed from her dietitian's notes.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Sebo plan">
@@ -14,17 +14,21 @@
   <link rel="apple-touch-icon" href="icon.svg">
   <style>
     :root {
-      --ink: #1c1915;
-      --muted: #5e584f;
-      --line: #d9d0c3;
-      --paper: #f4efe6;
-      --sheet: #fbf7f0;
-      --green: #1d6b42;
-      --leaf: #dfeade;
-      --clay: #8a3d2f;
-      --clay-soft: #f6e4dc;
-      --amber: #6d5014;
-      --amber-soft: #f8efd4;
+      --ink: #1a241c;
+      --muted: #5c675f;
+      --line: #e0d2bf;
+      --paper: #f6efe4;
+      --sheet: #fffaf3;
+      --green: #146b43;
+      --green-deep: #143d2c;
+      --leaf: #d7f0df;
+      --saffron: #c47a22;
+      --clay: #8d3b32;
+      --clay-soft: #f8e3da;
+      --amber: #7a4e12;
+      --amber-soft: #f8ecd0;
+      --fruit: #9c3d4a;
+      --sea: #1d5c68;
     }
     * { box-sizing: border-box; }
     [hidden] { display: none !important; }
@@ -42,22 +46,28 @@
     .skip { position: absolute; left: 8px; top: -40px; background: #fff; padding: 8px; }
     .skip:focus { top: 8px; }
     .wrap { width: min(880px, calc(100% - 28px)); margin: 0 auto; }
-    header.top { padding: 28px 0 8px; }
-    .who { margin: 0; letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.78rem; }
-    h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 0.95; margin: 8px 0; }
-    .when, .motto { margin: 0; color: var(--muted); }
-    .motto { margin-top: 8px; max-width: 36rem; }
+    header.top {
+      background: var(--green-deep);
+      color: #f8f3ea;
+      padding: 36px 0 28px;
+    }
+    .who { margin: 0; letter-spacing: 0.16em; text-transform: uppercase; font-size: 0.78rem; color: #e7b15a; }
+    h1 { font-size: clamp(2.4rem, 7vw, 4.2rem); line-height: 0.95; margin: 8px 0; color: #fffaf3; }
+    .when, .motto { margin: 0; color: #d7e6dc; }
+    .motto { margin-top: 8px; max-width: 38rem; }
+    .motto .stop { color: #f3b2a8; font-weight: 650; }
+    .motto .go { color: #b7e3c6; font-weight: 650; }
     .now {
       position: sticky; top: 0; z-index: 4;
-      background: rgba(244, 239, 230, 0.94);
+      background: rgba(255, 250, 243, 0.94);
       backdrop-filter: blur(8px);
-      border-bottom: 1px solid var(--ink);
+      border-bottom: 3px solid var(--green);
       padding: 10px 0;
       font-size: 0.92rem;
     }
-    .now p { margin: 0; }
+    .now p { margin: 0; color: var(--green-deep); font-weight: 650; }
     nav.jump { display: flex; gap: 14px; overflow-x: auto; padding-top: 6px; }
-    nav.jump a { text-decoration: none; border-bottom: 1px solid var(--ink); white-space: nowrap; font-size: 0.88rem; }
+    nav.jump a { text-decoration: none; border-bottom: 1px solid var(--saffron); color: var(--green-deep); white-space: nowrap; font-size: 0.88rem; }
     .stage {
       display: grid;
       grid-template-columns: 1fr;
@@ -83,15 +93,15 @@
     }
     .liquid {
       position: absolute; left: 0; right: 0; bottom: 0; height: 0;
-      background: #b7d3b2;
+      background: linear-gradient(180deg, #d4f0c2, #2f9a5b);
       transition: height 420ms ease;
     }
     .plate {
       width: 168px; height: 168px;
-      border: 2px solid var(--ink);
+      border: 3px solid var(--green);
       border-radius: 50%;
-      background: var(--sheet);
-      box-shadow: 0 9px 0 #e4d9c8;
+      background: radial-gradient(circle at 50% 42%, #fffdf8, #f6e4c8 78%);
+      box-shadow: 0 9px 0 #e7c08a;
       display: flex; align-items: center; justify-content: center; gap: 2px;
       padding: 16px;
     }
@@ -104,6 +114,11 @@
     .plate:has(svg + svg) .mini { width: 52px; height: 52px; }
     section { padding: 22px 0 8px; border-top: 1px solid var(--line); }
     h2 { font-size: 1.7rem; margin: 0 0 4px; }
+    #breakfast h2 { color: var(--green); }
+    #plates h2 { color: #8a4e1d; }
+    #fruit h2 { color: var(--fruit); }
+    #doses h2 { color: var(--sea); }
+    #out h2 { color: var(--clay); }
     .sub { margin: 0 0 14px; color: var(--muted); max-width: 40rem; }
     .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 8px; }
     .tile, .dose {
@@ -113,14 +128,14 @@
     .tile { min-height: 148px; display: flex; flex-direction: column; gap: 2px; }
     .tile svg { width: 72px; height: 72px; }
     .tile .name, .dose strong { font-weight: 650; }
-    .portion { color: var(--green); font-weight: 700; font-variant-numeric: tabular-nums; }
+    .portion { color: var(--saffron); font-weight: 700; font-variant-numeric: tabular-nums; }
     .aka, .dose small, .quiet { color: var(--muted); font-size: 0.82rem; }
     .tile[aria-checked="true"], .tile[aria-pressed="true"], .dose[aria-pressed="true"] {
       background: var(--leaf);
       border-color: var(--green);
       box-shadow: inset 0 0 0 1px var(--green);
     }
-    .group-label { margin: 16px 0 8px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; }
+    .group-label { margin: 16px 0 8px; font-size: 0.78rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--green); }
     .dose { width: 100%; display: flex; gap: 12px; align-items: center; margin-top: 8px; }
     .dose svg { width: 36px; height: 36px; flex: 0 0 auto; }
     .dose span:nth-child(2) { flex: 1; }
@@ -133,13 +148,14 @@
       content: ""; width: 6px; height: 10px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(40deg) translate(-1px, -1px);
     }
     .month { display: flex; gap: 3px; flex-wrap: wrap; margin: 8px 0 12px; }
-    .month i { width: 14px; height: 14px; border: 1px solid var(--ink); border-radius: 2px; display: block; font-style: normal; }
-    .month i.on { background: var(--green); }
+    .month i { width: 14px; height: 14px; border: 1px solid var(--sea); border-radius: 2px; display: block; font-style: normal; }
+    .month i.on { background: var(--sea); border-color: var(--sea); }
     .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
     button.text, button.solid {
-      border-radius: 999px; padding: 10px 14px; cursor: pointer; background: transparent; border: 1px solid var(--ink);
+      border-radius: 999px; padding: 10px 14px; cursor: pointer; background: transparent; border: 1px solid var(--green);
+      color: var(--green-deep);
     }
-    button.solid { background: var(--ink); color: #fbf7f0; }
+    button.solid { background: var(--green); border-color: var(--green); color: #f8f3ea; }
     .note { background: var(--amber-soft); color: var(--amber); padding: 12px 14px; border-radius: 12px; margin-top: 12px; }
     .out { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
     @media (min-width: 700px) { .out { grid-template-columns: 1fr 1fr; } }
@@ -313,7 +329,7 @@
       <p class="who">Sebo</p>
       <h1>Today</h1>
       <p class="when" id="when"></p>
-      <p class="motto">Sweet is death. Bitter is life. Written for blood pressure, diabetes, and cholesterol. Portions are the ones on the dietitian’s note.</p>
+      <p class="motto"><span class="stop">Sweet is death.</span> <span class="go">Bitter is life.</span> Written for blood pressure, diabetes, and cholesterol. Portions are the ones on the dietitian’s note.</p>
     </div>
   </header>
 
