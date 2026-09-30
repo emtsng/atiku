@@ -1,0 +1,19 @@
+{
+  "name": "Sebo eating plan",
+  "short_name": "Sebo plan",
+  "description": "Personal dietitian eating plan for Sebo.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#f3efe4",
+  "theme_color": "#0e5c38",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

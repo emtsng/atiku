@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0e5c38">
+  <meta name="description" content="Sebo's personal eating plan, transcribed from her dietitian's notes for blood pressure, diabetes, and cholesterol.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Sebo plan">
+  <title>Sebo · Eating plan</title>
+  <link rel="icon" href="icon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="icon.svg">
+  <style>
+    :root {
+      --ink: #1c2b24;
+      --muted: #5d6b64;
+      --line: #e4ddd0;
+      --paper: #f3efe4;
+      --sheet: #fffcf7;
+      --green: #0e5c38;
+      --green-soft: #e7f4ec;
+      --danger: #7f1d1d;
+      --danger-soft: #fdecec;
+      --amber: #7a4e00;
+      --amber-soft: #fff6df;
+      --shadow: 0 10px 30px rgba(40, 32, 16, 0.06);
+      --radius: 18px;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+      line-height: 1.5;
+    }
+    a { color: var(--green); }
+    .skip {
+      position: absolute;
+      left: 12px;
+      top: -40px;
+      background: #fff;
+      padding: 8px 12px;
+      z-index: 5;
+    }
+    .skip:focus { top: 12px; }
+    header.hero {
+      background: var(--green);
+      color: #f4fff8;
+      padding: 28px 20px 72px;
+    }
+    .wrap { width: min(760px, calc(100% - 32px)); margin: 0 auto; }
+    .kicker {
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+      font-weight: 700;
+      opacity: 0.85;
+      margin: 0 0 8px;
+    }
+    h1 { font-family: Georgia, "Iowan Old Style", serif; font-size: clamp(2rem, 5vw, 3rem); line-height: 1.05; margin: 0; font-weight: 600; }
+    .lede { margin: 10px 0 0; max-width: 38rem; color: #e5f6ec; }
+    .sheet {
+      background: var(--sheet);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 18px;
+      margin-bottom: 14px;
+    }
+    .lift { margin-top: -48px; }
+    .motto { display: flex; gap: 10px; flex-wrap: wrap; }
+    .motto p { margin: 0; flex: 1 1 200px; padding: 12px 14px; border-radius: 14px; }
+    .motto .stop { background: var(--danger-soft); color: var(--danger); }
+    .motto .go { background: var(--green-soft); color: var(--green); }
+    .conditions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 14px; }
+    .chip {
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      background: #f6f3ea;
+      color: var(--ink);
+    }
+    nav.sections {
+      position: sticky;
+      top: 0;
+      z-index: 3;
+      background: rgba(243, 239, 228, 0.94);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--line);
+      margin: 8px 0 16px;
+    }
+    nav.sections ul {
+      list-style: none;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      margin: 0;
+      padding: 10px 0;
+      scrollbar-width: none;
+    }
+    nav.sections a {
+      flex: 0 0 auto;
+      text-decoration: none;
+      color: var(--ink);
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 8px 12px;
+      font-size: 0.88rem;
+      font-weight: 650;
+    }
+    nav.sections a:focus-visible, button:focus-visible { outline: 3px solid #f0b429; outline-offset: 2px; }
+    h2 { font-family: Georgia, "Iowan Old Style", serif; font-size: 1.45rem; margin: 0 0 4px; }
+    .num { color: var(--green); font-variant-numeric: tabular-nums; margin-right: 6px; }
+    .sub { color: var(--muted); margin: 0 0 14px; }
+    .rules { display: grid; gap: 10px; }
+    .rules li { background: var(--green-soft); border-radius: 14px; padding: 12px 14px; }
+    ol.rules, ul.plain { margin: 0; padding-left: 1.1rem; }
+    .item, .dose {
+      width: 100%;
+      text-align: left;
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 16px;
+      padding: 12px;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      cursor: pointer;
+      font: inherit;
+      color: inherit;
+    }
+    .item + .item, .dose + .dose { margin-top: 8px; }
+    .item[aria-pressed="true"], .dose[aria-pressed="true"] {
+      background: var(--green-soft);
+      border-color: #8dceb0;
+    }
+    .box {
+      width: 22px;
+      height: 22px;
+      border-radius: 6px;
+      border: 2px solid #8aa194;
+      flex: 0 0 auto;
+      margin-top: 2px;
+      display: grid;
+      place-items: center;
+      font-size: 0.85rem;
+    }
+    [aria-pressed="true"] .box { background: var(--green); border-color: var(--green); color: #fff; }
+    [aria-pressed="true"] .box::after { content: "✓"; }
+    .name { font-weight: 750; display: block; }
+    .aka, .why { color: var(--muted); font-size: 0.88rem; display: block; }
+    .portion {
+      display: inline-block;
+      margin-top: 4px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 2px 8px;
+      font-weight: 750;
+      font-size: 0.85rem;
+      color: var(--green);
+    }
+    .grid { display: grid; gap: 10px; }
+    @media (min-width: 700px) {
+      .grid.two { grid-template-columns: 1fr 1fr; }
+    }
+    .avoid { background: var(--danger-soft); border-color: #f3c7c7; }
+    .note {
+      background: var(--amber-soft);
+      color: var(--amber);
+      border-radius: 14px;
+      padding: 12px 14px;
+      margin-top: 12px;
+    }
+    .recipe { border-left: 4px solid var(--green); }
+    .recipe strong { display: block; margin-bottom: 6px; }
+    .bar {
+      height: 10px;
+      background: #ece7dc;
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 8px 0 12px;
+    }
+    .bar span {
+      display: block;
+      height: 100%;
+      width: 0;
+      background: linear-gradient(90deg, #0e5c38, #67b48a);
+    }
+    .status { color: var(--muted); font-size: 0.85rem; margin: 8px 0 0; }
+    .actions { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 12px; }
+    button.ghost, button.solid {
+      border-radius: 12px;
+      padding: 10px 14px;
+      font: inherit;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    button.ghost { background: #fff; border: 1px solid var(--line); color: var(--ink); }
+    button.solid { background: var(--green); border: 0; color: #fff; }
+    footer { color: var(--muted); font-size: 0.85rem; padding: 8px 0 40px; }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+    }
+    @media print {
+      header.hero { background: #fff; color: #000; padding-bottom: 12px; }
+      .lede, nav.sections, .actions, .status, .skip { display: none; }
+      .lift { margin-top: 12px; }
+      .sheet { box-shadow: none; }
+      body { background: #fff; }
+    }
+  </style>
+</head>
+<body>
+  <a class="skip" href="#plan">Skip to the plan</a>
+  <header class="hero">
+    <div class="wrap">
+      <p class="kicker">Personal nutrition handout</p>
+      <h1>Sebo’s eating plan</h1>
+      <p class="lede">Transcribed from the dietitian’s notes and set out as a daily sheet. Portions stay in grams. Nothing here was added to the food list.</p>
+    </div>
+  </header>
+
+  <main id="plan" class="wrap">
+    <section class="sheet lift" aria-labelledby="motto-title">
+      <h2 id="motto-title">The rule on the note</h2>
+      <div class="motto">
+        <p class="stop"><strong>Sweet is death.</strong> No sugary drinks or sweetened juices.</p>
+        <p class="go"><strong>Bitter is life.</strong> Bitter leaf, scent leaf, utazi, and fenugreek stay in the plan.</p>
+      </div>
+      <div class="conditions" aria-label="Conditions named on the note">
+        <span class="chip">Hypertension</span>
+        <span class="chip">Diabetes mellitus</span>
+        <span class="chip">Cholesterol</span>
+      </div>
+    </section>
+
+    <nav class="sections" aria-label="Plan sections">
+      <ul>
+        <li><a href="#how">How to follow</a></li>
+        <li><a href="#avoid">Remove</a></li>
+        <li><a href="#breakfast">Breakfast</a></li>
+        <li><a href="#staples">Staples</a></li>
+        <li><a href="#soups">Soups</a></li>
+        <li><a href="#fruit">Fruit</a></li>
+        <li><a href="#protein">Protein</a></li>
+        <li><a href="#supplements">Supplements</a></li>
+      </ul>
+    </nav>
+
+    <section class="sheet" id="how" aria-labelledby="how-title">
+      <h2 id="how-title"><span class="num">01</span>How to follow it</h2>
+      <p class="sub">Four instructions already on the note, written as a daily order.</p>
+      <ol class="rules">
+        <li>Build breakfast as the cocktail: blend it into a smoothie, or eat it as a salad.</li>
+        <li>At each main meal, choose one staple and keep to the stated portion.</li>
+        <li>Vegetables are unrestricted. Meat, chicken, or fish is 50 g.</li>
+        <li>Take the supplements for one month, and tick each dose on the day you take it.</li>
+      </ol>
+      <p class="status" id="save-status">Ticks are saved in this browser only. They are not sent anywhere.</p>
+    </section>
+
+    <section class="sheet" id="avoid" aria-labelledby="avoid-title">
+      <h2 id="avoid-title"><span class="num">02</span>Remove completely</h2>
+      <p class="sub">Cut these out. The reasons are the ones written on the note.</p>
+      <button class="item avoid" type="button" data-check="avoid-soda" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Soft drinks</span><span class="why">Coke, Fanta, energy drinks, and drinks like them.</span></span>
+      </button>
+      <button class="item avoid" type="button" data-check="avoid-juice" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Juices</span><span class="why">Packaged and sweetened juices.</span></span>
+      </button>
+      <button class="item avoid" type="button" data-check="avoid-canned" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Canned foods</span><span class="why">High in salt and preservatives.</span></span>
+      </button>
+      <button class="item avoid" type="button" data-check="avoid-cubes" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Maggi and seasoning cubes</span><span class="aka">Bouillon cubes</span><span class="why">Very high in salt.</span></span>
+      </button>
+    </section>
+
+    <section class="sheet" id="breakfast" aria-labelledby="bf-title">
+      <h2 id="bf-title"><span class="num">03</span>Breakfast cocktail</h2>
+      <p class="sub">Blend as a smoothie, or eat as a salad. Tick each item as you add it.</p>
+      <button class="item" type="button" data-check="bf-cucumber" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Cucumber</span><span class="aka">Cucumis sativus</span></span>
+      </button>
+      <button class="item" type="button" data-check="bf-garden-egg" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Garden egg</span><span class="aka">African eggplant · Solanum aethiopicum</span></span>
+      </button>
+      <button class="item" type="button" data-check="bf-yam-bean" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">African yam bean</span><span class="aka">Sphenostylis stenocarpa</span><span class="portion">1 tablespoon</span></span>
+      </button>
+      <button class="item" type="button" data-check="bf-fenugreek" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Fenugreek</span><span class="aka">Trigonella foenum-graecum</span></span>
+      </button>
+      <button class="item" type="button" data-check="bf-onion" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Fresh onions</span><span class="aka">Allium cepa</span></span>
+      </button>
+    </section>
+
+    <section class="sheet" id="staples" aria-labelledby="staple-title">
+      <h2 id="staple-title"><span class="num">04</span>Staples, one per meal</h2>
+      <p class="sub">Pick one food for the meal and stop at the portion. Grams are the dietitian’s figures. Only spaghetti and awara were given as household measures.</p>
+      <button class="item" type="button" data-check="staple-yam" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Yam with vegetables</span><span class="aka">Dioscorea</span><span class="portion">200 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-rice" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Rice</span><span class="portion">200 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-beans" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Beans</span><span class="portion">250 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-irish" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Irish potatoes</span><span class="aka">White potato · Solanum tuberosum</span><span class="portion">200 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-sweet" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Sweet potatoes</span><span class="aka">Ipomoea batatas</span><span class="portion">250 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-acha" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Acha</span><span class="aka">Fonio · Digitaria exilis</span><span class="portion">200 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-awara" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Awara</span><span class="aka">Soy curd, the same family as tofu</span><span class="portion">3 pieces</span></span>
+      </button>
+      <button class="item" type="button" data-check="staple-spaghetti" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Spaghetti</span><span class="portion">1 kitchen-spoon portion</span></span>
+      </button>
+    </section>
+
+    <section class="sheet" id="soups" aria-labelledby="soup-title">
+      <h2 id="soup-title"><span class="num">05</span>Two soups</h2>
+      <p class="sub">Both recipes use African yam bean and fenugreek. Tick the soup you make.</p>
+      <div class="grid two">
+        <article class="recipe sheet">
+          <strong>Soup 1</strong>
+          Bitter leaf (Vernonia amygdalina) + scent leaf (Ocimum gratissimum) + African yam bean + fenugreek.
+          <button class="item" type="button" data-check="soup-1" aria-pressed="false" style="margin-top:10px">
+            <span class="box" aria-hidden="true"></span>
+            <span><span class="name">Made soup 1 today</span></span>
+          </button>
+        </article>
+        <article class="recipe sheet">
+          <strong>Soup 2</strong>
+          Garden egg leaf + utazi leaf (Gongronema latifolium) + African yam bean + fenugreek.
+          <button class="item" type="button" data-check="soup-2" aria-pressed="false" style="margin-top:10px">
+            <span class="box" aria-hidden="true"></span>
+            <span><span class="name">Made soup 2 today</span></span>
+          </button>
+        </article>
+      </div>
+    </section>
+
+    <section class="sheet" id="fruit" aria-labelledby="fruit-title">
+      <h2 id="fruit-title"><span class="num">06</span>Fruit portions</h2>
+      <p class="sub">Each fruit on the note is paired with “A”. Carrot is written as 2 + 1A. The note does not spell out what A is.</p>
+      <button class="item" type="button" data-check="fruit-melon" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Watermelon</span><span class="portion">½ + A</span></span>
+      </button>
+      <button class="item" type="button" data-check="fruit-apple" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Apple</span><span class="portion">1 + A</span></span>
+      </button>
+      <button class="item" type="button" data-check="fruit-pawpaw" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Pawpaw</span><span class="aka">Papaya</span><span class="portion">½ + A</span></span>
+      </button>
+      <button class="item" type="button" data-check="fruit-mango" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Mango</span><span class="portion">1 + A</span></span>
+      </button>
+      <button class="item" type="button" data-check="fruit-banana" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Banana</span><span class="portion">1 + A</span></span>
+      </button>
+      <button class="item" type="button" data-check="fruit-carrot" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Carrot</span><span class="portion">2 + 1A</span></span>
+      </button>
+      <p class="note">Confirm with the dietitian what “A” means before treating it as a second food. It is copied here exactly as it appears on the note.</p>
+    </section>
+
+    <section class="sheet" id="protein" aria-labelledby="protein-title">
+      <h2 id="protein-title"><span class="num">07</span>Vegetables and protein</h2>
+      <p class="sub">All vegetables are allowed. Protein foods are limited to 50 g.</p>
+      <p class="note">Vegetables: no restriction on the note. Use them with the staple and with either soup.</p>
+      <button class="item" type="button" data-check="pro-chicken" aria-pressed="false" style="margin-top:10px">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Chicken</span><span class="portion">50 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="pro-fish" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Fish</span><span class="portion">50 g</span></span>
+      </button>
+      <button class="item" type="button" data-check="pro-meat" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Grilled meat</span><span class="portion">50 g</span></span>
+      </button>
+    </section>
+
+    <section class="sheet" id="supplements" aria-labelledby="sup-title">
+      <h2 id="sup-title"><span class="num">08</span>Supplements, one month</h2>
+      <p class="sub">Strength is shown only where the note gives it. Twice daily is tracked as a morning dose and an evening dose.</p>
+      <p class="status" id="month-status">Set the first day of the course to count the month.</p>
+      <div class="bar" aria-hidden="true"><span id="month-bar"></span></div>
+      <button class="dose" type="button" data-check="sup-b-am" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">B-complex, morning</span><span class="why">2 tablets, twice daily</span></span>
+      </button>
+      <button class="dose" type="button" data-check="sup-b-pm" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">B-complex, evening</span><span class="why">2 tablets, twice daily</span></span>
+      </button>
+      <button class="dose" type="button" data-check="sup-c-am" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Vitamin C, morning</span><span class="why">100 mg · 2 tablets, twice daily</span></span>
+      </button>
+      <button class="dose" type="button" data-check="sup-c-pm" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Vitamin C, evening</span><span class="why">100 mg · 2 tablets, twice daily</span></span>
+      </button>
+      <button class="dose" type="button" data-check="sup-folic" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Folic acid</span><span class="why">1 daily</span></span>
+      </button>
+      <button class="dose" type="button" data-check="sup-omega" aria-pressed="false">
+        <span class="box" aria-hidden="true"></span>
+        <span><span class="name">Omega-3 fatty acids</span><span class="why">500 mg · daily</span></span>
+      </button>
+      <div class="bar" role="meter" id="today-meter" aria-label="Today’s doses ticked" aria-valuemin="0" aria-valuemax="6" aria-valuenow="0">
+        <span id="today-bar"></span>
+      </div>
+      <div class="actions">
+        <button class="solid" type="button" id="start-course">Start the one-month course today</button>
+        <button class="ghost" type="button" id="reset-day">Clear today’s ticks</button>
+      </div>
+    </section>
+
+    <footer>
+      <p>This page copies the dietitian’s handwritten list. It is Sebo’s plan, not a general diet. Check anything unclear, including the mark “A”, with the dietitian before changing what she eats or the supplements she takes.</p>
+      <p id="cache-status">This browser is storing a copy of the page so it can open again without a new download.</p>
+    </footer>
+  </main>
+  <script>
+    const KEY = "sebo-eating-plan-v1";
+    const checks = [...document.querySelectorAll("[data-check]")];
+    const saveStatus = document.getElementById("save-status");
+    const monthStatus = document.getElementById("month-status");
+    const monthBar = document.getElementById("month-bar");
+    const todayBar = document.getElementById("today-bar");
+    const todayMeter = document.getElementById("today-meter");
+    const doses = checks.filter((button) => button.dataset.check.startsWith("sup-"));
+
+    const todayKey = () => {
+      const now = new Date();
+      return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, "0"), String(now.getDate()).padStart(2, "0")].join("-");
+    };
+
+    const emptyState = () => ({ day: todayKey(), ticks: {}, start: null });
+
+    const load = () => {
+      try {
+        const saved = JSON.parse(localStorage.getItem(KEY) || "null");
+        if (!saved || typeof saved !== "object") return emptyState();
+        if (saved.day !== todayKey()) return { day: todayKey(), ticks: {}, start: saved.start || null };
+        saved.ticks = saved.ticks || {};
+        return saved;
+      } catch {
+        return emptyState();
+      }
+    };
+
+    let state = load();
+
+    const paint = () => {
+      checks.forEach((button) => {
+        const on = Boolean(state.ticks[button.dataset.check]);
+        button.setAttribute("aria-pressed", on ? "true" : "false");
+      });
+      const done = doses.filter((button) => state.ticks[button.dataset.check]).length;
+      todayBar.style.width = (done / doses.length) * 100 + "%";
+      todayMeter.setAttribute("aria-valuenow", String(done));
+      if (state.start) {
+        const start = new Date(state.start + "T00:00:00");
+        const dayNumber = Math.floor((new Date(todayKey() + "T00:00:00") - start) / 86400000) + 1;
+        const shown = Math.max(1, Math.min(dayNumber, 30));
+        monthBar.style.width = (shown / 30) * 100 + "%";
+        monthStatus.textContent = dayNumber > 30
+          ? "The one-month course on this note has passed. Ask the dietitian before continuing."
+          : "Day " + shown + " of 30, counted from " + state.start + ".";
+      }
+      saveStatus.textContent = "Saved on this phone or computer for " + state.day + ". Ticks are not sent anywhere.";
+    };
+
+    const persist = () => {
+      localStorage.setItem(KEY, JSON.stringify(state));
+      paint();
+    };
+
+    checks.forEach((button) => {
+      button.addEventListener("click", () => {
+        const id = button.dataset.check;
+        state.ticks[id] = !state.ticks[id];
+        persist();
+      });
+    });
+
+    document.getElementById("reset-day").addEventListener("click", () => {
+      state.ticks = {};
+      state.day = todayKey();
+      persist();
+    });
+
+    document.getElementById("start-course").addEventListener("click", () => {
+      if (!state.start) state.start = todayKey();
+      persist();
+    });
+
+    paint();
+
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("./sw.js", { scope: "./" }).then(() => {
+        document.getElementById("cache-status").textContent = "A copy is saved in this browser. After the first visit, the plan still opens if the network drops.";
+      }).catch(() => {
+        document.getElementById("cache-status").textContent = "The page is open. Browser storage for offline use did not start in this visit.";
+      });
+    }
+  </script>
+</body>
+</html>
